@@ -414,7 +414,7 @@
       if (controller.leftClick) {
 
         game.player.velocity_x -= 5;
-        game.player.source_x = 32;
+        game.player.source_x = 48;
         controller.leftClick = false;
 
       }
@@ -422,7 +422,7 @@
       if (controller.rightClick) {
 
         game.player.velocity_x += 5;
-        game.player.source_x = 32;
+        game.player.source_x = 48;
         controller.rightClick = false;
 
       }
@@ -430,7 +430,7 @@
       if (controller.upClick) {
 
         game.player.velocity_y -= 5;
-        game.player.source_x = 32;
+        game.player.source_x = 48;
         controller.upClick = false;
 
       }
@@ -438,7 +438,7 @@
       if (controller.downClick) {
 
         game.player.velocity_y += 5;
-        game.player.source_x = 32;
+        game.player.source_x = 48;
         controller.downClick = false;
 
       }
@@ -447,28 +447,28 @@
       if (controller.left) {
 
         game.player.velocity_x -= 0.40;
-        game.player.source_x = 32;
+        game.player.source_x = 48;
 
       }
 
       if (controller.right) {
 
         game.player.velocity_x += 0.40;
-        game.player.source_x = 32;
+        game.player.source_x = 48;
 
       }
 
       if (controller.up) {
 
         game.player.velocity_y -= 0.40;
-        game.player.source_x = 32;
+        game.player.source_x = 48;
 
       }
 
       if (controller.down) {
 
         game.player.velocity_y += 0.40;
-        game.player.source_x = 32;
+        game.player.source_x = 48;
 
       }
 
