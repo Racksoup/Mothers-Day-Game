@@ -33,9 +33,9 @@
       console.log(game.player.x , game.player.y);
       var boundary = display.context.canvas.getBoundingClientRect();
       //console.log(boundary);
-      console.log(((event.pageX - boundary.left) * 1.153), ((event.pageY - boundary.top) * 1.3));
+      console.log(((event.pageX - boundary.left) * display.buffer_output_ratio_X), ((event.pageY - boundary.top) * display.buffer_output_ratio_Y));
 
-      if (((event.pageX - boundary.left) *1.153)  > game.player.x ) {
+      if (((event.pageX - boundary.left) * display.buffer_output_ratio_X)  > game.player.x ) {
 
         controller.rightClick = true;
 
@@ -45,7 +45,7 @@
 
       }
 
-      if (((event.pageY - boundary.top) * 1.3)  < game.player.y ) {
+      if (((event.pageY - boundary.top) * display.buffer_output_ratio_Y)  < game.player.y ) {
 
         controller.upClick = true;
 
@@ -64,6 +64,8 @@
     context:document.querySelector("canvas").getContext("2d"),
     output:document.querySelector("p"),
     firstloop:true,
+    buffer_output_ratio_X: 1,
+    buffer_output_ratio_Y: 1,
 
     render: function() {
 
@@ -119,6 +121,9 @@
       }
 
       display.context.canvas.height = Math.floor(display.context.canvas.width * 0.652);
+
+      display.buffer_output_ratio_X = display.buffer.canvas.width / display.context.canvas.width;
+      display.buffer_output_ratio_Y = display.buffer.canvas.height / display.context.canvas.height;
 
       display.render();
 
