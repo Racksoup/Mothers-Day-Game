@@ -30,30 +30,37 @@
     },
 
     click: function(event) {
-      console.log(game.player.x , game.player.y);
       var boundary = display.context.canvas.getBoundingClientRect();
-      //console.log(boundary);
-      console.log(((event.pageX - boundary.left) * display.buffer_output_ratio_X), ((event.pageY - boundary.top) * display.buffer_output_ratio_Y));
+      let clickX = ((event.pageX - boundary.left) * display.buffer_output_ratio_X);
+      let clickY = ((event.pageY - boundary.top) * display.buffer_output_ratio_Y);
 
-      if (((event.pageX - boundary.left) * display.buffer_output_ratio_X)  > game.player.x ) {
+      var xlong = (Math.abs(clickX - game.player.x) > Math.abs(clickY - game.player.y) * 1.7 )?true:false;
+      var ylong = (Math.abs(clickY - game.player.y) > Math.abs(clickX - game.player.x) * 1.7 )?true:false;
+
+      if (clickX > game.player.x && ylong == false ) {
 
         controller.rightClick = true;
 
-      } else {
+      } 
+      
+      if (clickX < game.player.x && ylong == false ) {
 
         controller.leftClick = true;
 
       }
 
-      if (((event.pageY - boundary.top) * display.buffer_output_ratio_Y)  < game.player.y ) {
+      if (clickY < game.player.y && xlong == false) {
 
         controller.upClick = true;
 
-      } else {
+      }
+      
+      if (clickY > game.player.y && xlong == false) {
 
         controller.downClick = true;
 
       }
+
     }
 
   };
@@ -120,7 +127,7 @@
 
       }
 
-      display.context.canvas.height = Math.floor(display.context.canvas.width * 0.652);
+      display.context.canvas.height = Math.floor(display.context.canvas.width * 0.7);
 
       display.buffer_output_ratio_X = display.buffer.canvas.width / display.context.canvas.width;
       display.buffer_output_ratio_Y = display.buffer.canvas.height / display.context.canvas.height;
@@ -398,18 +405,19 @@
 
     loop: function() {
 
-      if (game.player.hearts === 4) {
+      if (game.player.hearts === 9) {
+
         display.output.innerHTML = "WINNER! HAPPY MOTHERS DAY!!!"
+
       }
 
       if (display.firstloop) {
 
-        let heart1 = new game.heart();
-        let heart2 = new game.heart();
-        let heart3 = new game.heart();
-        let heart4 = new game.heart();
-        
-        game.heartArr.push(heart1, heart2, heart3, heart4);
+        for (let i = 0; i < 9; i++) {
+
+          game.heartArr.push(new game.heart());
+          
+        }
 
         display.firstloop = false;
 
@@ -418,7 +426,7 @@
       // Click Controller functions
       if (controller.leftClick) {
 
-        game.player.velocity_x -= 5;
+        game.player.velocity_x -= 6;
         game.player.source_x = 48;
         controller.leftClick = false;
 
@@ -426,7 +434,7 @@
 
       if (controller.rightClick) {
 
-        game.player.velocity_x += 5;
+        game.player.velocity_x += 6;
         game.player.source_x = 48;
         controller.rightClick = false;
 
@@ -434,7 +442,7 @@
 
       if (controller.upClick) {
 
-        game.player.velocity_y -= 5;
+        game.player.velocity_y -= 6;
         game.player.source_x = 48;
         controller.upClick = false;
 
@@ -442,7 +450,7 @@
 
       if (controller.downClick) {
 
-        game.player.velocity_y += 5;
+        game.player.velocity_y += 6;
         game.player.source_x = 48;
         controller.downClick = false;
 
