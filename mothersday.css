@@ -31,3 +31,96 @@ canvas {
   background-color: #ffffff;
   
 }
+
+.container {
+
+  justify-self: center;
+  display:grid;
+  justify-content: center;
+  text-align: center;
+  align-content: space-around;
+  align-items: center;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  width: 35%;
+
+}
+
+.gamesWonTitle {
+
+  grid-row-start: 1;
+  grid-row-end: 2;
+  grid-column-start: 1;
+  grid-column-end: 2;
+
+}
+
+.gamesWon {
+
+  grid-row-start: 2;
+  grid-row-end: 4;
+  grid-column-start: 1;
+  grid-column-end: 2;
+
+}
+
+.heartCountTitle{
+
+  grid-row-start: 1;
+  grid-row-end: 2;
+  grid-column-start:2;
+  grid-column-end: 4;
+
+}
+
+.heartCount {
+
+  grid-row-start: 2;
+  grid-row-end: 4;
+  grid-column-start: 2;
+  grid-column-end: 3;
+
+}
+
+.heartCountUp {
+
+  grid-row-start: 2;
+  grid-row-end: 3;
+  grid-column-start: 3;
+  grid-column-end: 4;
+  justify-self: center;
+  width: 40%;
+  color: black;
+  background: yellow;
+  border: none;
+
+
+}
+
+.heartCountDown {
+
+  grid-row-start: 3;
+  grid-row-end: 4;
+  grid-column-start: 3;
+  grid-column-end: 4;
+  justify-self: center;
+  width: 40%;
+  color: black;
+  background: pink;
+  border: none;
+
+}
+
+.reset {
+
+  grid-row-start: 1;
+  grid-row-end: 4;
+  grid-column-start: 4;
+  grid-column-end: 5;
+  align-self: stretch;
+  background-color: purple;
+  border: none;
+  color: white;
+
+}
+
