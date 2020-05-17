@@ -30,12 +30,13 @@
     },
 
     click: function(event) {
+      event.preventDefault();
       var boundary = display.context.canvas.getBoundingClientRect();
       let clickX = ((event.pageX - boundary.left) * display.buffer_output_ratio_X);
       let clickY = ((event.pageY - boundary.top) * display.buffer_output_ratio_Y);
 
-      var xlong = (Math.abs(clickX - game.player.x) > Math.abs(clickY - game.player.y) * 1.7 )?true:false;
-      var ylong = (Math.abs(clickY - game.player.y) > Math.abs(clickX - game.player.x) * 1.7 )?true:false;
+      var xlong = (Math.abs(clickX - game.player.x) > Math.abs(clickY - game.player.y) * 1.85 )?true:false;
+      var ylong = (Math.abs(clickY - game.player.y) > Math.abs(clickX - game.player.x) * 1.85 )?true:false;
 
       if (clickX > game.player.x && ylong == false ) {
 
@@ -85,23 +86,23 @@
         let value = game.world.map[index];
         let tile_x = (index % columns) * tile_size;
         let tile_y = Math.floor(index / columns) * tile_size;
-        let newVal;
+        let bitImage;
 
         switch(value) {
-          case 0: newVal = 0; break;
-          case 1: newVal = 1; break;
-          case 2: newVal = 1; break;
-          case 3: newVal = 1; break;
-          case 4: newVal = 1; break;
-          case 5: newVal = 1; break;
-          case 6: newVal = 1; break;
-          case 7: newVal = 1; break;
-          case 8: newVal = 1; break;
-          case 9: newVal = 1; break;
-          case 10: newVal = 0; break;
+          case 0: bitImage = 0; break;
+          case 1: bitImage = 1; break;
+          case 2: bitImage = 1; break;
+          case 3: bitImage = 1; break;
+          case 4: bitImage = 1; break;
+          case 5: bitImage = 1; break;
+          case 6: bitImage = 1; break;
+          case 7: bitImage = 1; break;
+          case 8: bitImage = 1; break;
+          case 9: bitImage = 1; break;
+          case 10: bitImage = 0; break;
         }
         
-        display.buffer.drawImage( tile_sheet, newVal * tile_size, 0, tile_size, tile_size, tile_x, tile_y, tile_size, tile_size);
+        display.buffer.drawImage( tile_sheet, bitImage * tile_size, 0, tile_size, tile_size, tile_x, tile_y, tile_size, tile_size);
 
       }
 
@@ -189,6 +190,9 @@
     },
 
     heartArr: [],
+    heartCount: 9,
+    gamesWon: 0,
+    currHeartCount: 9,
 
     world: {
 
@@ -249,6 +253,33 @@
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 
       ],
+
+    },
+
+    plusHeartCount: function() {
+
+      game.heartCount += 1;
+
+    },
+
+    minusHeartCount: function() {
+
+      game.heartCount -= 1;
+
+    },
+
+    reset: function() {
+
+      game.heartArr = [];
+      game.currHeartCount = game.heartCount;
+      game.player.hearts = 0;
+
+      for (let i = 0; i < game.heartCount; i++) {
+
+        game.heartArr.push(new game.heart());
+        
+      }
+
 
     },
 
@@ -404,16 +435,27 @@
     },
 
     loop: function() {
+      console.log(game.player.hearts, game.currHeartCount);
 
-      if (game.player.hearts === 9) {
+      document.getElementById("heartCount").innerHTML = game.heartCount;
+      document.getElementById("gamesWon").innerHTML = game.gamesWon
 
-        display.output.innerHTML = "WINNER! HAPPY MOTHERS DAY!!!"
+      if (game.player.hearts === game.currHeartCount) {
+
+        display.output.innerHTML = "WINNER! HAPPY MOTHERS DAY!!!";
+
+      }
+
+      if (game.player.hearts === game.currHeartCount && game.heartArr.length == 0) { 
+
+        game.gamesWon += 1;
+        game.heartArr.push("teehee");
 
       }
 
       if (display.firstloop) {
 
-        for (let i = 0; i < 9; i++) {
+        for (let i = 0; i < game.heartCount; i++) {
 
           game.heartArr.push(new game.heart());
           
@@ -459,28 +501,28 @@
       // Controller functions
       if (controller.left) {
 
-        game.player.velocity_x -= 0.40;
+        game.player.velocity_x -= 0.60;
         game.player.source_x = 48;
 
       }
 
       if (controller.right) {
 
-        game.player.velocity_x += 0.40;
+        game.player.velocity_x += 0.60;
         game.player.source_x = 48;
 
       }
 
       if (controller.up) {
 
-        game.player.velocity_y -= 0.40;
+        game.player.velocity_y -= 0.60;
         game.player.source_x = 48;
 
       }
 
       if (controller.down) {
 
-        game.player.velocity_y += 0.40;
+        game.player.velocity_y += 0.60;
         game.player.source_x = 48;
 
       }
@@ -647,7 +689,10 @@
   window.addEventListener("resize", display.resize);
   window.addEventListener("keydown", controller.keyUpDown);
   window.addEventListener("keyup", controller.keyUpDown);
-  display.context.canvas.addEventListener("click", controller.click);
+  display.context.canvas.addEventListener("click", controller.click, {passive:false});
+  document.getElementById("heartCountUp").onclick = function() {game.plusHeartCount()};
+  document.getElementById("heartCountDown").onclick = function() {game.minusHeartCount()};
+  document.getElementById("reset").onclick = function() {game.reset()};
 
   display.resize();
 
